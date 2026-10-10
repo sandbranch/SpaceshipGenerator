@@ -4,14 +4,27 @@ A Blender script to procedurally generate 3D spaceships from a random seed.
 
 ![Spaceship screenshots](https://raw.githubusercontent.com/a1studmuffin/SpaceshipGenerator/master/screenshots/spaceships_grid.jpg)
 
+This fork
+---------
+The [original](https://github.com/a1studmuffin/SpaceshipGenerator) by Michael Davies stopped at Blender 2.80 and fails on 4.x and 5.x. This fork keeps the generator as it was and updates it to run on Blender 4.2 and later, tested on 5.2. The same seed still produces the same ship.
+
+What changed, all API renames:
+
+* Principled BSDF inputs `Specular` and `Emission` are now `Specular IOR Level` and `Emission Color`, and Emission Strength is set to 1, since it now defaults to 0.
+* `bmesh.ops.create_cone` and `create_icosphere` take `radius` instead of `diameter` (the value was always used as a radius, so sizes are unchanged), and `segments` must be an int.
+* The `Raw` colour space is now `Non-Color`.
+* Batch mode: `item.select` became `select_set()`, and the viewport context override uses `temp_override`.
+* Packaged as a Blender extension with `blender_manifest.toml`.
+
 Usage
 -----
-* Install Blender 2.80 or greater: http://blender.org/download/
-* Download newest `add_mesh_SpaceshipGenerator.zip` from the [Releases](https://github.com/a1studmuffin/SpaceshipGenerator/releases) section
-* Under Edit > Preferences... > Add-ons > Install... open the downloaded ZIP file
-* Under Edit > Preferences... > Add-ons enable the "Add Mesh: Spaceship Generator" script (search for "spaceship")
+* Install Blender 4.2 or later: https://www.blender.org/download/
+* Download the newest `spaceship_generator-<version>.zip` from the [Releases](https://github.com/sandbranch/SpaceshipGenerator/releases) section
+* Drag the ZIP onto Blender, or use Edit > Preferences > Get Extensions, the menu at the top right, **Install from Disk...**
 * Add a spaceship in the 3D View under Add > Mesh > Spaceship
-* Expand the Spaceship tab that appears in the bottom left of the viewport to adjust procedural generation settings
+* Expand the Spaceship panel that appears in the bottom left of the viewport to adjust procedural generation settings
+
+To build the ZIP yourself: `blender --command extension build --source-dir . --output-dir dist`
 
 How it works
 ------------
@@ -37,7 +50,7 @@ The following screenshots were created using extreme values for the number of hu
 
 Tips and Tricks
 ---------------
-* By default the script will delete all objects starting with `Spaceship` before generating a new spaceship. To disable this feature, remove or comment out the call to `reset_scene()` around line 735 in the main function.
+* By default the script will delete all objects starting with `Spaceship` before generating a new spaceship. To disable this feature, remove or comment out the call to `reset_scene()` near the end of `spaceship_generator.py` in the main function.
 * You can provide a seed to the `generate_spaceship()` function to always generate the same spaceship. For example, `generate_spaceship('michael')`.
 * The `generate_spaceship()` function takes many more parameters that affect the generation process. Try playing with them!
 * You can replace the textures with your own ones. All textures are applied using global-space cube UVs. `hull_normal.png` is a normal map that adds extra surface "greebles". `hull_lights_diffuse.png` is an additive diffuse texture to set the color of the window lights. `hull_lights_emit.png` is an emissive texture to make the windows glow in darkness.

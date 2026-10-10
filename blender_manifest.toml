@@ -1,0 +1,28 @@
+schema_version = "1.0.0"
+
+id = "spaceship_generator"
+version = "1.2.0"
+name = "Spaceship Generator"
+tagline = "Procedurally generate textured 3D spaceships from a random seed"
+maintainer = "David <sandquist@gmail.com>"
+type = "add-on"
+
+website = "https://github.com/sandbranch/SpaceshipGenerator"
+
+tags = ["Add Mesh"]
+
+blender_version_min = "4.2.0"
+
+license = ["SPDX:MIT"]
+copyright = ["2016 Michael Davies", "2026 David"]
+
+[build]
+paths = [
+  "__init__.py",
+  "spaceship_generator.py",
+  "textures/hull_normal.png",
+  "textures/hull_lights_emit.png",
+  "textures/hull_lights_diffuse.png",
+  "LICENSE",
+  "README.md",
+]
